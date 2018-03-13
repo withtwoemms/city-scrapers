@@ -12,7 +12,7 @@ That’s why City Bureau and ProPublica Illinois are working together with a tea
 
 ## What are the City Scrapers?
 
-The City Scrapers collect information about public meetings. Everyday, the City Scrapers go out and fetch information about new meetings from Chicago city council's website, the local school council's website, the Chicago police department's website, and many more. This happens automatically so that a person doesn't have to do it. The scrapers store all of the meeting information in a database for journalists at City Bureau to report on them. 
+The City Scrapers collect information about public meetings. Everyday, the City Scrapers go out and fetch information about new meetings from Chicago city council's website, the local school council's website, the Chicago police department's website, and many more. This happens automatically so that a person doesn't have to do it. The scrapers store all of the meeting information in a database for journalists at City Bureau to report on them.
 
 Community members are also welcome to use this code to set up their own databases.
 
@@ -20,8 +20,8 @@ Community members are also welcome to use this code to set up their own database
 
 A lot about the City of Chicago! What is City Council talking about this week? What are the local school councils, and what community power do they have? What neighborhoods is the police department doing outreach in? Who governs our water?
 
-From building a scraper, you'll gain experience with:  
-- how the web works (HTTP requests and responses, reading HTML)  
+From building a scraper, you'll gain experience with:
+- how the web works (HTTP requests and responses, reading HTML)
 - writing functions and tests in Python
 - version control and collaborative coding (git and Github)
 - a basic data file format (json), working with a schema and data validation
@@ -30,7 +30,7 @@ From building a scraper, you'll gain experience with:
 ## Community Mission
 
 The City Bureau Labs community welcomes contributions from everyone. We prioritize learning and leadership opportunities for under-represented individuals in tech and journalism.
- 
+
 We hope that working with us will fill experience gaps (like using git/github, working with data, or having your ideas taken seriously), so that more under-represented people will become decision-makers in both our community and Chicago’s tech and media scenes at large.
 
 ## Ready to code with us?
@@ -51,7 +51,7 @@ A. We have ongoing conversations about what sort of data we should collect and h
 
 B. Research sources for public meetings. Answer questions like: Are we scraping events from the right websites? Are there local agencies that we're missing? Should events be updated manually or by a scraper? [Triage events sources on these issues](https://github.com/City-Bureau/city-scrapers/issues?q=is%3Aissue+is%3Aopen+label%3A%22non-coding%3A+triage+events+source%22).
 
-## Support this work
+## Support This Work
 
 This project is organized and maintained by [City Bureau](http://www.citybureau.org/) and [ProPublica Illinois](https://www.propublica.org/illinois).
 
