@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
+
 from documenters_aggregator.spider import Spider
-from pprint import pprint as pp
+from datetime import datetime
 
 
 class HaccSpider(Spider):
@@ -18,15 +19,14 @@ class HaccSpider(Spider):
         Change the `_parse_id`, `_parse_name`, etc methods to fit your scraping
         needs.
         """
-        print('\nRESPONSE_XPATH: ', response.xpath('//section[@id="tribe-events-content"]//div[@class="content"]'))
-        container = response.xpath('//section[@id="tribe-events-content"]//div[@class="content"]')
+        container = response.xpath('//section[@id="tribe-events-content"]//div[@class="item-wrapper"]')
         for i, item in enumerate(container):
 
             start_time = self._parse_start(item)
             data = {
                 '_type': 'event',
                 'id': self._parse_id(item),
-                'name': self._parse_name(item, i),
+                'name': self._parse_name(item),
                 'description': self._parse_description(item),
                 'classification': self._parse_classification(item),
                 'start_time': start_time,
@@ -34,10 +34,9 @@ class HaccSpider(Spider):
                 'timezone': self._parse_timezone(item),
                 'status': self._parse_status(item),
                 'all_day': self._parse_all_day(item),
-                'location': self._parse_location(item),
+                'location': self._parse_location(item, i),
                 'sources': self._parse_sources(item),
             }
-            pp(data)
 
         data['id'] = self._generate_id(data, start_time)
 
@@ -63,20 +62,28 @@ class HaccSpider(Spider):
         Example:
         chi_buildings/201710161230/2176/daley_plaza_italian_exhibit
         """
-        return ''
+        unique_id = '0192'  # issue number
+        start_datetime = ''  # need to get year and day... maybe from calendar
+        underscored_event_name = self. _parse_name(item).replace(' ', '_')
+        return f'{self.name}/{start_datetime}/{unique_id}/{underscored_event_name}'
 
-    def _parse_name(self, item, index):
+    def _parse_name(self, item):
         """
         Parse or generate event name.
         """
-        text_array = item.xpath('//div[@class="info"]//a//text()').extract()
-        return text_array[index]
+        text_array = item.xpath('div[@class="item"]/div[@class="content"]/div[@class="info"]/h3/a/text()').extract()
+        return text_array.pop()
 
     def _parse_description(self, item):
         """
         Parse or generate event name.
         """
-        return ''
+        try:
+            item = item.xpath('div[@class="item"]/following-sibling::p[3]/text()').pop()
+            parsed_item = item.extract()  # need to follow page to get more info
+        except IndexError as e:
+            parsed_item = ''
+        return parsed_item
 
     def _parse_classification(self, item):
         """
@@ -86,23 +93,19 @@ class HaccSpider(Spider):
 
     def _parse_start(self, item):
         """
-        Parse start date and time.
+        Parse start date and time.  # needs to be some formatted datetime obj
         """
-        # print('\nRESPONSE_XPATH: ', response.xpath('//section[@id="tribe-events-content"]//p[@class="subtitle"]'))
-        # print('***ITEM: ', item)
-        # item.xpath('//br')
-        # pp(item.xpath('./br'))
-        # pp(item.xpath('./br').extract().__class__.__name__)
-        # pp(item.xpath('./br/text()').extract())
-        # pp(dir(item.xpath('./br')))
-        # pp(dir(item.xpath('./br')))
-        return ''
+        time_frame = item.xpath('p[@class="subtitle"]//text()').extract()[-1].strip('\t').split(' - ')
+        start = datetime.strptime(time_frame[0], '%I:%M %p')
+        return start
 
     def _parse_end(self, item):
         """
-        Parse end date and time.
+        Parse end date and time.  # needs to be some formatted datetime obj
         """
-        return ''
+        time_frame = item.xpath('p[@class="subtitle"]//text()').extract()[-1].strip('\t').split(' - ')
+        end = datetime.strptime(time_frame[-1], '%I:%M %p')
+        return end
 
     def _parse_timezone(self, item):
         """
@@ -116,14 +119,16 @@ class HaccSpider(Spider):
         """
         return False
 
-    def _parse_location(self, item):
+    def _parse_location(self, item, index):
         """
         Parse or generate location. Latitude and longitude can be
         left blank and will be geocoded later.
         """
+        text_array = item.xpath('//p[@class="subtitle"]//text()').extract()
+        event_names = [text_array[i] for i in range(0, len(text_array), 2)]
         return {
             'url': '',
-            'name': '',
+            'name': event_names[index],
             'address': '',
             'coordinates': {
                 'latitude': '',
