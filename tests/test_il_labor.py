@@ -16,7 +16,12 @@ def test_name():
 
 @pytest.mark.parametrize('item', parsed_items)
 def test_description(item):
-    assert item['description'] == 'To discuss issues and cases pending before the panel'
+    EXPECTED_DESCRIPTION = ("The Illinois Public Labor Relations Act (Act) governs labor relations "
+                "between most public employers in Illinois and their employees. Throughout "
+                "the State, the Illinois Labor Relations Board regulates the designation of "
+                "employee representatives; the negotiation of wages, hours, and other conditions "
+                "of employment; and resolves, or if necessary, adjudicates labor disputes.")
+    assert item['description'] == EXPECTED_DESCRIPTION
 
 
 @pytest.mark.parametrize('item', parsed_items)
@@ -25,7 +30,7 @@ def test_timezone(item):
 
 
 def test_start_time():
-    assert parsed_items[1]['start_time'] == '2017-09-12T13:00:00-05:00'
+    assert parsed_items[1]['start_time'].isoformat() == '2017-09-12T13:00:00-05:00'
 
 
 @pytest.mark.parametrize('item', parsed_items)
@@ -55,7 +60,8 @@ def test_status(item):
 def test_location():
     assert parsed_items[0]['location'] == {
         'url': None,
-        'name': '160 N. LaSalle Street, Room N-401, Chicago, IL',
+        'name': None,
+        'address': '160 N. LaSalle Street, Room N-401, Chicago, IL',
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -64,7 +70,8 @@ def test_location():
 
     assert parsed_items[1]['location'] == {
         'url': None,
-        'name': 'Conference Room 5A, 801 S. 7th Street, Springfield, IL',
+        'address': 'Conference Room 5A, 801 S. 7th Street, Springfield, IL',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,

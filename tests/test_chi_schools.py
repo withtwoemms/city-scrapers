@@ -39,7 +39,12 @@ def test_sources(item):
 
 @pytest.mark.parametrize('item', parsed_items)
 def test_description(item):
-    assert item['description'] is None
+    EXPECTED_DESCRIPTION = ("The Chicago Board of Education is responsible for "
+                            "the governance, organizational and financial "
+                            "oversight of Chicago Public Schools (CPS), "
+                            "the third largest school district in the "
+                            "United States of America.")
+    assert item['description'] == EXPECTED_DESCRIPTION
 
 
 @pytest.mark.parametrize('item', parsed_items)
@@ -48,7 +53,7 @@ def test_classification(item):
 
 
 def test_start_time():
-    assert parsed_items[0]['start_time'] == "2017-07-26T10:30:00-05:00"
+    assert parsed_items[0]['start_time'].isoformat() == "2017-07-26T10:30:00-05:00"
 
 
 @pytest.mark.parametrize('item', parsed_items)
@@ -65,6 +70,7 @@ def test_status(item):
 def test_location(item):
     assert item['location'] == {
         'url': None,
-        'name': 'CPS Loop Office 42 W. Madison Street, Garden Level Chicago, IL 60602 Board Room',
+        'name': None,
+        'address': 'CPS Loop Office 42 W. Madison Street, Garden Level Chicago, IL 60602 Board Room',
         'coordinates': {'latitude': None, 'longitude': None},
     }

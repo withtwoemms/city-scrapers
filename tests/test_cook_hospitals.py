@@ -15,11 +15,16 @@ def test_name():
 
 
 def test_description():
-    assert parsed_items[0]['description'] == 'http://www.cookcountyhhs.org/wp-content/uploads/2016/01/01-27-17-Board-Agenda.pdf'
+    EXPECTED_DESCRIPTION = ("The CCHHS is charged with delivering integrated health services with dignity and respect "
+                            "regardless of a patient’s ability to pay; fostering partnerships with other health providers "
+                            "and communities to enhance the health of the public; and advocating for policies that promote "
+                            "the physical, mental and social well being of the people of Cook County. "
+                            "The CCHHS Board of Directors has five standing committees.")
+    assert parsed_items[0]['description'] == EXPECTED_DESCRIPTION
 
 
 def test_start_time():
-    assert parsed_items[0]['start_time'] == '2017-01-27T09:00:00-06:00'
+    assert parsed_items[0]['start_time'].isoformat() == '2017-01-27T09:00:00-06:00'
 
 
 def test_id():
@@ -33,7 +38,8 @@ def test_status():
 def test_location():
     assert parsed_items[0]['location'] == {
         'url': '',
-        'name': '1900 W. Polk, Second Floor Conference Room, Chicago, Illinois',
+        'name': '',
+        'address': '1900 W. Polk, Second Floor Conference Room, Chicago, Illinois',
         'coordinates': {'latitude': '', 'longitude': ''},
     }
 

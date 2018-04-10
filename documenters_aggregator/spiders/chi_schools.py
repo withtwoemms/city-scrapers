@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime
-from pytz import timezone
 
 from documenters_aggregator.spider import Spider
 
@@ -16,13 +15,13 @@ class Chi_schoolsSpider(Spider):
         for item in response.css('#content-primary tr')[1:]:
             start_time = self._parse_start_time(item)
             if start_time is not None:
-                start_time, start_time_str = self._parse_start_time(item)
+                start_time = self._parse_start_time(item)
                 data = {
                     '_type': 'event',
                     'name': 'Monthly Board Meeting',
                     'description': self._parse_description(item),
                     'classification': self._parse_classification(item),
-                    'start_time': start_time_str,
+                    'start_time': start_time,
                     'all_day': self._parse_all_day(item),
                     'timezone': 'America/Chicago',
                     'status': self._parse_status(item),
@@ -42,7 +41,11 @@ class Chi_schoolsSpider(Spider):
         unsafe to assume that will always be the case so let's
         grab it programmatically anyways.
         """
-        return None
+        return ("The Chicago Board of Education is responsible for "
+                "the governance, organizational and financial "
+                "oversight of Chicago Public Schools (CPS), "
+                "the third largest school district in the "
+                "United States of America.")
 
     def _parse_classification(self, item):
         """
@@ -57,9 +60,7 @@ class Chi_schoolsSpider(Spider):
         date_string = date_string.replace(',', "").replace(':', " ")
         try:
             date = datetime.strptime(date_string, '%B %d %Y %I %M %p')
-            tz = timezone('America/Chicago')
-            date_tz = tz.localize(date)
-            return (date_tz, date_tz.isoformat())
+            return self._naive_datetime_to_tz(date, 'America/Chicago')
         except:
             return None
 
@@ -83,10 +84,11 @@ class Chi_schoolsSpider(Spider):
         raw_text_list = item.css('::text').extract()
         text_list = self._remove_line_breaks(raw_text_list)[1:]
         text_list = [x for x in text_list if '(' not in x and ')' not in x]
-        name = " ".join(text_list)
+        address = " ".join(text_list)
         return {
             'url': None,
-            'name': name,
+            'address': address,
+            'name': None,
             'coordinates': {
                 'longitude': None,
                 'latitude': None}

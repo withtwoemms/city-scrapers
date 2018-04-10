@@ -23,15 +23,22 @@ def test_name():
 
 
 def test_description():
-    assert parsed_items[0]['description'] == 'Not available'
+    EXPECTED_DESCRIPTION = ("The Chicago Park District Act provides that the Chicago"
+        "Park District shall be governed by a board of seven" 
+        "non-salaried Commissioners who are appointed by the Mayor"
+        "of the City of Chicago with the approval of the Chicago City"
+        "Council. Under the Chicago Park District Code, the Commissioners"
+        "have a fiduciary duty to act, vote on all matters, and govern"
+        "the Park District in the best interest of the Park District.")
+    assert parsed_items[0]['description'] == EXPECTED_DESCRIPTION
 
 
 def test_start_time():
-    assert parsed_items[0]['start_time'] == '2017-12-13T15:30:00-06:00'
-    assert parsed_items[1]['start_time'] == '2017-12-06T15:30:00-06:00'
-    assert parsed_items[2]['start_time'] == '2017-11-08T15:30:00-06:00'
-    assert parsed_items[3]['start_time'] == '2017-10-20T13:30:00-05:00'
-    assert parsed_items[4]['start_time'] == '2017-10-11T15:30:00-05:00'
+    assert parsed_items[0]['start_time'].isoformat() == '2017-12-13T15:30:00-06:00'
+    assert parsed_items[1]['start_time'].isoformat() == '2017-12-06T15:30:00-06:00'
+    assert parsed_items[2]['start_time'].isoformat() == '2017-11-08T15:30:00-06:00'
+    assert parsed_items[3]['start_time'].isoformat() == '2017-10-20T13:30:00-05:00'
+    assert parsed_items[4]['start_time'].isoformat() == '2017-10-11T15:30:00-05:00'
 
 
 def test_id():
@@ -64,7 +71,8 @@ def test_status():
 def test_location():
     assert parsed_items[1]['location'] == {
         'url': None,
-        'name': 'Board Room ADMINISTRATION BUILDING AT 541 NORTH FAIRBANKS COURT, CHICAGO, ILLINOIS 60611 8TH FLOOR BOARD ROOM',
+        'address': 'Board Room ADMINISTRATION BUILDING AT 541 NORTH FAIRBANKS COURT, CHICAGO, ILLINOIS 60611 8TH FLOOR BOARD ROOM',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -72,7 +80,8 @@ def test_location():
     }
     assert parsed_items[2]['location'] == {
         'url': None,
-        'name': '8TH FLOOR BOARD ROOM ADMINISTRATION BUILDING AT 541 NORTH FAIRBANKS COURT, CHICAGO, ILLINOIS 60611',
+        'address': '8TH FLOOR BOARD ROOM ADMINISTRATION BUILDING AT 541 NORTH FAIRBANKS COURT, CHICAGO, ILLINOIS 60611',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -80,7 +89,8 @@ def test_location():
     }
     assert parsed_items[3]['location'] == {
         'url': None,
-        'name': 'DRINKER, BIDDLE & REATH LLP 191 N. UPPER WACKER DR. STE 3700 CHICAGO, ILLINOIS 60606',
+        'address': 'DRINKER, BIDDLE & REATH LLP 191 N. UPPER WACKER DR. STE 3700 CHICAGO, ILLINOIS 60606',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -88,7 +98,8 @@ def test_location():
     }
     assert parsed_items[4]['location'] == {
         'url': None,
-        'name': '2401 N Lake Shore Dr, Chicago, IL 60614 THEATER ON THE LAKE',
+        'address': '2401 N Lake Shore Dr, Chicago, IL 60614 THEATER ON THE LAKE',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -96,7 +107,8 @@ def test_location():
     }
     assert parsed_items[5]['location'] == {
         'url': None,
-        'name': '8TH FLOOR BOARD ROOM',
+        'address': '8TH FLOOR BOARD ROOM',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -104,7 +116,8 @@ def test_location():
     }
     assert parsed_items[6]['location'] == {
         'url': None,
-        'name': 'FOSCO PARK 1312 S. Racine Ave. Chicago, Illinois 60608',
+        'address': 'FOSCO PARK 1312 S. Racine Ave. Chicago, Illinois 60608',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -112,7 +125,8 @@ def test_location():
     }
     assert parsed_items[7]['location'] == {
         'url': None,
-        'name': 'ADMINISTRATION BUILDING AT 541 NORTH FAIRBANKS COURT, CHICAGO, ILLINOIS 60611 8TH FLOOR BOARD ROOM',
+        'address': 'ADMINISTRATION BUILDING AT 541 NORTH FAIRBANKS COURT, CHICAGO, ILLINOIS 60611 8TH FLOOR BOARD ROOM',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
@@ -120,7 +134,8 @@ def test_location():
     }
     assert parsed_items[8]['location'] == {
         'url': None,
-        'name': 'Test Training 2',
+        'address': 'Test Training 2',
+        'name': None,
         'coordinates': {
             'latitude': None,
             'longitude': None,
