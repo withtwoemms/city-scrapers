@@ -2,6 +2,7 @@ import pytest
 
 from tests.utils import file_response
 from documenters_aggregator.spiders.hacc import HaccSpider
+from pprint import pprint as pp
 
 
 """
@@ -17,16 +18,16 @@ def test_name():
     assert parsed_items[0]['name'] == 'Build Your Future!'
 
 
-# def test_description():
-    # assert parsed_items[0]['description'] == 'EXPECTED DESCRIPTION'
+def test_description():
+   assert parsed_items[0]['description'].startswith('A hands-on opportunity to learn about the trades') == True
 
 
-# def test_start_time():
-    # assert parsed_items[0]['start_time'] == 'EXPECTED START DATE AND TIME'
+def test_start_time():
+    assert parsed_items[0]['start_time'].strftime('%-I:%M %p').lower() == '4:00 pm'
 
 
-# def test_end_time():
-    # assert parsed_items[0]['end_time'] == 'EXPECTED END DATE AND TIME'
+def test_end_time():
+    assert parsed_items[0]['end_time'].strftime('%-I:%M %p').lower() == '6:00 pm'
 
 
 # def test_id():
